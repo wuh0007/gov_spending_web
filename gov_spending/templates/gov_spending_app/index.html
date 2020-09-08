@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title> Government Spending Data Application </title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <!-- <link rel="stylesheet" href="{% static 'css/master.css'%}"> -->
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    <!-- For some reason, the severless deployment didn't load static files -->
+    <style>
+      .header {
+        font-family: Oak,sans-serif;
+        text-align:center;
+      }
+
+      .logo {
+        width: 300px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .styled {
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+          border: 0;
+          line-height: 2.5;
+          padding: 0 20px;
+          font-size: 1rem;
+          text-align: center;
+          color: #000000;
+          text-shadow: 1px 1px 1px #000;
+          border-radius: 10px;
+          background-color: #64a8ed;
+          background-image: linear-gradient(to top left,
+                                            rgba(0, 0, 0, .2),
+                                            rgba(0, 0, 0, .2) 30%,
+                                            rgba(0, 0, 0, 0));
+          box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
+                      inset -2px -2px 3px rgba(0, 0, 0, .6);
+      }
+
+      .styled:hover {
+          background-color: #00458a;
+      }
+
+      .styled:active {
+          box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
+                      inset 2px 2px 3px rgba(0, 0, 0, .6);
+      }
+
+
+      table th {
+          color: #ffffff;
+      }
+
+
+      table {
+          table-layout: fixed;
+          word-wrap: break-word;
+      }
+
+      .bg-dark {
+
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <h1 class="header"> Government Spending Data Application </h1> <br>
+    <!-- <img src="{% static 'images/logo.png'%}" class="logo"> <br><br> -->
+    <img src="https://www.lawfirmnewswire.com/wp-content/uploads/2020/01/Logo1-Rev1-6-TRANSPARENT.png" class="logo"> <br><br>
+
+    <form action="" method="post">
+      {% csrf_token %}
+      <input type="submit" name="button1" value="Fetch Data" class="styled"> <input type="submit" name="button2" value="Withdraw Data" class="styled">  <br><br>
+    </form>
+    <p> This table shows the budget of the government agencies indexed by USASpending.gov. </p>
+    <table class="table table-hover table-fixed">
+        <tr class="bg-dark">
+            <th data-column="agency_id" data-order="desc" style="width: 120px"> agency_id &#9650</th>
+            <th data-column="toptier_code" data-order="desc" style="width: 140px">toptier_code &#9650</th>
+            <th data-column="abbreviation" data-order="desc" style="width: 140px">abbreviation &#9650</th>
+            <th data-column="agency_name" data-order="desc" style="width: 150px">agency_name &#9650</th>
+            <th data-column="congressional_justification_url" data-order="desc" style="width: 270px">congressional_justification_url &#9650</th>
+            <th data-column="active_fy" data-order="desc" style="width: 110px">active_fy &#9650</th>
+            <th data-column="active_fq" data-order="desc" style="width: 110px">active_fq &#9650</th>
+            <th data-column="outlay_amount" data-order="desc" style="width: 150px">outlay_amount &#9650</th>
+            <th data-column="obligated_amount" data-order="desc" style="width: 180px">obligated_amount &#9650</th>
+            <th data-column="budget_authority_amount" data-order="desc" style="width: 230px">budget_authority_amount &#9650</th>
+            <th data-column="current_total_budget_authority_amount" data-order="desc" style="width: 330px">current_total_budget_authority_amount &#9650</th>
+            <th data-column="percentage_of_total_budget_authority" data-order="desc" style="width: 320px">percentage_of_total_budget_authority &#9650</th>
+        </tr>
+
+        <tbody id="myTable">
+        </tbody>
+    </table>
+
+  </body>
+</html>
+
+<!-- For some reason, the severless deployment didn't load static files -->
+<script>
+  if (String({{ results|safe }}) === '0') {
+    var myArray = [];
+  }
+  else {
+    var myArray = {{ results|safe }};
+  }
+
+  $('th').on('click', function(){
+		var column = $(this).data('column')
+		var order = $(this).data('order')
+		var text = $(this).html()
+		text = text.substring(0, text.length - 1)
+
+		if(order == 'desc'){
+			$(this).data('order', "asc")
+			myArray = myArray.sort((a,b) => a[column] > b[column] ? 1 : -1)
+			text += '&#9660'
+
+		}else{
+			$(this).data('order', "desc")
+			myArray = myArray.sort((a,b) => a[column] < b[column] ? 1 : -1)
+			text += '&#9650'
+
+		}
+		$(this).html(text)
+	   buildTable(myArray)
+   })
+
+ 	buildTable(myArray)
+
+	function buildTable(data){
+		var table = document.getElementById('myTable')
+    table.innerHTML = ''
+		for (var i = 0; i < data.length; i++){
+			var row = `<tr>
+							<td>${data[i].agency_id}</td>
+							<td>${data[i].toptier_code}</td>
+							<td>${data[i].abbreviation}</td>
+              <td>${data[i].agency_name}</td>
+              <td>${data[i].congressional_justification_url}</td>
+              <td>${data[i].active_fy}</td>
+              <td>${data[i].active_fq}</td>
+              <td>${data[i].outlay_amount}</td>
+              <td>${data[i].obligated_amount}</td>
+              <td>${data[i].budget_authority_amount}</td>
+              <td>${data[i].current_total_budget_authority_amount}</td>
+              <td>${data[i].percentage_of_total_budget_authority}</td>
+					  </tr>`
+			table.innerHTML += row
+		}
+	}
+
+</script>

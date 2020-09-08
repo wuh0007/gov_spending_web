@@ -1,0 +1,14 @@
+{
+    "dev": {
+        "aws_region": "us-east-2",
+        "django_settings": "gov_spending.settings",
+        "profile_name": "default",
+        "project_name": "gov-spending",
+        "runtime": "python3.7",
+        "s3_bucket": "gov-spending-app-bucket"
+        "timeout_seconds": 900,
+        "manage_roles": false,
+        "role_name": "ZappaDjangoRole",
+        "role_arn": "arn:aws:iam::380921781208:role/ZappaDjangoRole"
+    }
+}
