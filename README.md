@@ -18,6 +18,8 @@ deployed address: https://v4llavm4je.execute-api.us-east-2.amazonaws.com/dev
 
 6.**AWS Lambda**   
 
+7.**AWS S3** 
+
 **Troubleshooting:** 
 
 For some reason, the deployed severless app didn't correctly load static files stored in static folder, thus css and js content are written and stored in html <style> and <script> file. Have tried to use AWS S3 to store static files, but same error happened. Will figure this out in the future work.
