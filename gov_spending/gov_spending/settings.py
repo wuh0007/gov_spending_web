@@ -126,12 +126,3 @@ STATICFILES_DIRS = [
 ]
 
 
-#S3 BUCKETS CONFIG
-# AWS_ACCESS_KEY_ID = 'AKIAVRMFVDPMABEN7SXP'
-# AWS_SECRET_ACCESS_KEY = '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'
-# AWS_STORAGE_BUCKET_NAME = 'gov-spending-app-bucket'
-#
-# AWS_S3_FILE_OVERWRITE = False
-# AWS_DEFAULT_ACL = None
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
