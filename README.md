@@ -20,5 +20,5 @@ deployed address: https://v4llavm4je.execute-api.us-east-2.amazonaws.com/dev
 
 ## Showcase
 
-![Figure_1](/figure/thesis.png)
+![Figure_1](/figure/1.png)
 
